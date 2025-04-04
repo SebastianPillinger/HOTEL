@@ -327,13 +327,34 @@
 			cursor: default;
 		}
 		.lightbox-arrow {
-			font-size: 2em; /* Kleiner als vorher */
-			padding: 15px;
-			z-index: 1001;
-			background: rgba(0,0,0,0.3);
-			border-radius: 50%;
-			transition: all 0.3s ease;
-		}
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 10em;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px 20px;
+    z-index: 1001;
+    transition: opacity 0.2s;
+    pointer-events: auto;
+    
+    /* Hintergrund komplett entfernen */
+    background: none !important;
+    
+    /* Fokus-Ringe entfernen */
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    border: none !important;
+}
+
+/* Hover-Effekt anpassen */
+.lightbox-arrow:hover {
+    opacity: 0.5;
+    background: none !important; /* Sicherstellen, dass kein Hintergrund erscheint */
+}
+
 		
 		/* Lightbox-Klick zum Schließen */
 		.lightbox {
@@ -345,10 +366,8 @@
 
 		@media (max-width: 768px) {
 			.lightbox-arrow {
-				font-size: 1.5em; /* Noch kleiner für Mobile */
-				padding: 10px;
-				bottom: 20px;
-				top: auto;
+				font-size: 3em;    /* Kleinere Größe für Handys */
+				padding: 5px 10px; /* Kompakteres Padding */
 			}
 		}
 
@@ -548,8 +567,8 @@
     <!-- Modal für vergrößerte Bilder -->
     <div class="lightbox" id="lightbox">
 		<div class="slider-container" id="slider-container"></div>
-		<button class="prev" onclick="event.stopPropagation(); changeImage(-1)">❮</button>
-		<button class="next" onclick="event.stopPropagation(); changeImage(1)">❯</button>
+		<span class="lightbox-arrow prev" onclick="event.stopPropagation(); changeImage(-1)">❮</span>
+		<span class="lightbox-arrow next" onclick="event.stopPropagation(); changeImage(1)">❯</span>
 	</div>
     <!-- Hauptnavigation -->
     <nav aria-label="Hauptnavigation">

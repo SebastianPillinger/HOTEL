@@ -17,9 +17,9 @@
 	<style>
 		@font-face {
 			font-family: 'Zapfino';
-			src: url('zapfino.woff2') format('woff2'),
-				 url('zapfino.woff') format('woff'),
-				 url('zapfino.ttf') format('truetype');
+			src: url('fonts/zapfino.woff2') format('woff2'),
+				 url('fonts/zapfino.woff') format('woff'),
+				 url('fonts/zapfino.ttf') format('truetype');
 			font-weight: normal;
 			font-style: normal;
 		}
@@ -785,11 +785,18 @@
 		lightbox.addEventListener('touchend', handleTouchEnd);
 
 		// Klick schließt Lightbox
-				// Lightbox-Klick schließt nur bei Klick auf den Hintergrund
 		lightbox.addEventListener('click', (e) => {
-			if(e.target === lightbox || e.target.classList.contains('slider-container')) {
+			const isArrow = e.target.closest('.prev, .next');
+			if (!isArrow) {
 				closeLightbox();
 			}
+		});
+		
+		// Verhindern, dass Klicks auf die Pfeile die Lightbox schließen
+		document.querySelectorAll('.prev, .next').forEach(button => {
+			button.addEventListener('click', (e) => {
+				e.stopPropagation();
+			});
 		});
 
 
@@ -799,17 +806,14 @@
 				if(e.key === 'ArrowLeft') changeImage(-1);
 				if(e.key === 'ArrowRight') changeImage(1);
 				if(e.key === 'Escape') closeLightbox();
-				if(!e.target.classList.contains('prev') && !e.target.classList.contains('next')) {
-        closeLightbox();
-    }
 			}
 		});
 		
 		// Close-Funktion vereinfachen
-function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
+		function closeLightbox() {
+			lightbox.classList.remove('active');
+			document.body.style.overflow = 'auto';
+		}
 
 
 		// Weitere Funktionen (Load More Button, Smooth Scroll, etc.)

@@ -61,6 +61,7 @@
 		}
 
 		header h1 {
+		font-family: 'Zapfino', cursive;
     /* Grundlegende Positionierung */
     color: white;
     text-align: right;
@@ -68,12 +69,12 @@
     padding-right: 40px;
     
     /* Erhöhter Zeilenabstand */
-    line-height: 1.6;
+    line-height: 2;
     padding-bottom: 10px;
 
     /* 3D-Perspektive (X, Y und Z-Rotation) */
     transform: 
-        perspective(800px) 
+        perspective(400px) 
         rotateX(5deg)    /* leichte Neigung nach hinten */
         rotateY(-15deg)  /* leichte Drehung nach links */
         rotateZ(0.5deg); /* minimale Kippung */
@@ -274,6 +275,61 @@
 		.gallery img:nth-child(n+13) {
 			display: none;
 		}
+		
+		/* Lightbox Styles */
+		.lightbox {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.95);
+			justify-content: center;
+			align-items: center;
+			z-index: 1000;
+			touch-action: none;
+			opacity: 0;
+			transition: opacity 0.7s ease;
+		}
+
+		.lightbox.active {
+			display: flex;
+			opacity: 1;
+		}
+
+		.slider-container {
+			display: flex;
+			height: 100%;
+			width: 100%;
+			will-change: transform;
+			pointer-events: none;
+		}
+
+		.slider-item {
+			flex: 0 0 100%;
+			min-width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			pointer-events: auto;
+		}
+
+		.slider-item img {
+			max-width: 90%;
+			max-height: 90vh;
+			object-fit: contain;
+			transition: none !important;
+			cursor: default;
+		}
+
+		@media (max-width: 768px) {
+			.lightbox-arrow {
+				font-size: 3em;
+				padding: 5px 10px;
+			}
+		}
 
 		/* Kundenfeedback */
 		.testimonials {
@@ -440,12 +496,12 @@
 </head>
 <body>
     <!-- Modal für vergrößerte Bilder -->
-    <div id="myModal" class="modal" onclick="closeModalOnClick(event)">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImg">
-        <a class="prev" onclick="changeImage(-1)">&#10094;</a>
-        <a class="next" onclick="changeImage(1)">&#10095;</a>
-    </div>
+    <div id="lightbox" class="lightbox" onclick="closeModalOnClick(event)">
+		<div class="slider-container" id="slider-container"></div>
+		<span class="close" onclick="closeLightbox()">&times;</span>
+		<a class="prev" onclick="changeImage(-1)">&#10094;</a>
+		<a class="next" onclick="changeImage(1)">&#10095;</a>
+	</div>
     <!-- Hauptnavigation -->
     <nav aria-label="Hauptnavigation">
         <a href="#portfolio">Portfolio</a>
@@ -544,95 +600,160 @@
     <!-- Externe JavaScript-Datei -->
 	
 	<script>
-	
-		// Dynamisches Einfügen der Bilder in die Galerie
+		// Initialisiere Lightbox-Elemente
+		const lightbox = document.getElementById('lightbox');
+		const sliderContainer = document.getElementById('slider-container');
+		
+		// Dynamisches Einfügen der Bilder
 		const totalImages = 54;
 		const gallery = document.getElementById('gallery');
 		const loadMoreButton = document.getElementById('loadMore');
 
+		// Bildergalerie erstellen
 		for (let i = 1; i <= totalImages; i++) {
 			const img = document.createElement('img');
-			img.src = `bilder/gastro_${i.toString().padStart(2, '0')}.jpg`; // Dateinamen mit führender Null
+			img.src = `bilder/gastro_${i.toString().padStart(2, '0')}.jpg`;
 			img.alt = `Bild ${i}`;
 			img.loading = 'lazy';
-			img.onclick = () => openModal(i - 1); // Index für das Modal
+			img.onclick = () => openLightbox(i - 1);
 			gallery.appendChild(img);
 		}
 
-		// "Weitere" Button Logik
+		// Lightbox Funktionen
+		let currentIndex = 0;
+		let images = [];
+		let isAnimating = false;
+		let touchStartX = 0;
+		let touchStartY = 0;
+		let currentPosition = 0;
+
+		function openLightbox(index) {
+			currentIndex = index;
+			images = Array.from(document.querySelectorAll('.gallery img'));
+			lightbox.classList.add('active');
+			document.body.style.overflow = 'hidden';
+			
+			// Slider vorbereiten
+			sliderContainer.innerHTML = '';
+			images.forEach((img, i) => {
+				const slide = document.createElement('div');
+				slide.className = 'slider-item';
+				slide.innerHTML = `<img src="${img.src}" alt="Bild ${i + 1}">`;
+				sliderContainer.appendChild(slide);
+			});
+			
+			currentPosition = -currentIndex * 100;
+			sliderContainer.style.transform = `translateX(${currentPosition}%)`;
+		}
+
+		function closeLightbox() {
+			lightbox.classList.remove('active');
+			document.body.style.overflow = 'auto';
+		}
+
+		function changeImage(n, animate = false) {
+			const newIndex = (currentIndex + n + images.length) % images.length;
+			
+			if(animate) {
+				isAnimating = true;
+				sliderContainer.style.transition = 'transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1)';
+			} else {
+				sliderContainer.style.transition = 'none';
+			}
+
+			currentIndex = newIndex;
+			currentPosition = -currentIndex * 100;
+			sliderContainer.style.transform = `translateX(${currentPosition}%)`;
+
+			if(animate) {
+				sliderContainer.addEventListener('transitionend', () => {
+					isAnimating = false;
+				}, { once: true });
+			}
+		}
+
+		// Touch-Handling
+		function handleTouchStart(e) {
+			touchStartX = e.touches[0].clientX;
+			touchStartY = e.touches[0].clientY;
+			sliderContainer.style.transition = 'none';
+		}
+
+		function handleTouchMove(e) {
+			e.preventDefault();
+			if (isAnimating) return;
+			
+			const touchX = e.touches[0].clientX;
+			const deltaX = touchX - touchStartX;
+			const movePercentage = (deltaX / window.innerWidth) * 100;
+			let newPosition = currentPosition + movePercentage;
+			
+			// Endlos-Scroll Logik
+			if(currentIndex === 0 && newPosition > 0) newPosition = -images.length * 100 + movePercentage;
+			if(currentIndex === images.length-1 && newPosition < -currentIndex * 100) newPosition = 100 + movePercentage;
+			
+			sliderContainer.style.transform = `translateX(${newPosition}%)`;
+		}
+
+		function handleTouchEnd(e) {
+			const endX = e.changedTouches[0].clientX;
+			const endY = e.changedTouches[0].clientY;
+			const deltaX = endX - touchStartX;
+			const deltaY = endY - touchStartY;
+
+			// Vertikales Wischen (Schließen)
+			if(Math.abs(deltaY) > 100) {
+				closeLightbox();
+				return;
+			}
+
+			// Horizontales Wischen
+			if(Math.abs(deltaX) > window.innerWidth * 0.15) {
+				const direction = deltaX > 0 ? -1 : 1;
+				changeImage(direction, true);
+			} else {
+				sliderContainer.style.transform = `translateX(${currentPosition}%)`;
+			}
+		}
+
+		// Event Listener
+		lightbox.addEventListener('touchstart', handleTouchStart);
+		lightbox.addEventListener('touchmove', handleTouchMove);
+		lightbox.addEventListener('touchend', handleTouchEnd);
+		lightbox.addEventListener('click', (e) => e.target === lightbox && closeLightbox());
+
+		// Tastatursteuerung
+		document.addEventListener('keydown', (e) => {
+			if(lightbox.classList.contains('active')) {
+				if(e.key === 'ArrowLeft') changeImage(-1);
+				if(e.key === 'ArrowRight') changeImage(1);
+				if(e.key === 'Escape') closeLightbox();
+			}
+		});
+
+		// Weitere Funktionen (Load More Button, Smooth Scroll, etc.)
 		loadMoreButton.addEventListener('click', () => {
-			// Zeige alle versteckten Bilder an
-			const hiddenImages = document.querySelectorAll('.gallery img:nth-child(n+13)');
-			hiddenImages.forEach(img => {
+			document.querySelectorAll('.gallery img:nth-child(n+13)').forEach(img => {
 				img.style.display = 'block';
 			});
-
-			// Verstecke den Button, nachdem alle Bilder angezeigt wurden
 			loadMoreButton.style.display = 'none';
 		});
 
-		// Modal-Funktionen
-		let currentIndex = 0;
-		const modal = document.getElementById('myModal');
-		const modalImg = document.getElementById('modalImg');
-		const images = document.querySelectorAll('.gallery img');
-
-		function openModal(index) {
-			currentIndex = index;
-			modalImg.src = images[currentIndex].src;
-			modal.style.display = 'flex';
-		}
-
-		function closeModal() {
-			modal.style.display = 'none';
-		}
-
-		function closeModalOnClick(event) {
-			if (event.target === modal) {
-				closeModal();
-			}
-		}
-
-		function changeImage(n) {
-			currentIndex += n;
-			if (currentIndex >= images.length) currentIndex = 0;
-			if (currentIndex < 0) currentIndex = images.length - 1;
-			modalImg.src = images[currentIndex].src;
-		}
-
-		// Tastatursteuerung
-		document.addEventListener('keydown', (event) => {
-			if (modal.style.display === 'flex') {
-				if (event.key === 'ArrowRight') changeImage(1);
-				if (event.key === 'ArrowLeft') changeImage(-1);
-				if (event.key === 'Escape') closeModal();
-			}
-		});
-
-		// Kopieren in die Zwischenablage
 		function copyToClipboard(text) {
 			navigator.clipboard.writeText(text).then(() => {
 				alert('Kopiert: ' + text);
 			}).catch(() => {
-				alert('Kopieren fehlgeschlagen. Bitte manuell kopieren: ' + text);
+				alert('Kopieren fehlgeschlagen: ' + text);
 			});
 		}
 
-		// Smooth Scroll für interne Links
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-			anchor.addEventListener('click', function (e) {
+			anchor.addEventListener('click', function(e) {
 				e.preventDefault();
-				const targetId = this.getAttribute('href').substring(1);
-				const targetElement = document.getElementById(targetId);
-
-				if (targetElement) {
-					targetElement.scrollIntoView({
-						behavior: 'smooth',
-						block: 'start'
-					});
-				}
+				const target = document.getElementById(this.getAttribute('href').substring(1));
+				if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 			});
 		});
-    </script>
+	</script>
 </body>
 </html>

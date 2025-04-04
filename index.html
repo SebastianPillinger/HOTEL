@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <!-- Meta-Tags für Zeichenkodierung, Viewport und SEO -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professionelle Hotelfotografie für Tourismus und Kulinarik. Wir machen Aufnahmen während des Betriebs – jetzt anfragen!">
+    <meta name="keywords" content="Hotelfotografie, Tourismusfotografie, Kulinarikfotografie, Fotografie, Hotel, Restaurant">
+    <meta property="og:title" content="Hotelfotografie für Tourismus und Kulinarik">
+    <meta property="og:description" content="Professionelle Hotelfotografie für Tourismus und Kulinarik. Wir machen Aufnahmen während des Betriebs – jetzt anfragen!">
+    <meta property="og:image" content="https://www.deinewebsite.de/bilder/fotografie.jpg">
+    <meta property="og:url" content="https://www.deinewebsite.de">
+    <title>Hotelfotografie für Tourismus und Kulinarik</title>
+    <!-- Google Fonts für das Design -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Externe CSS-Datei -->
+	<style>
+		@font-face {
+			font-family: 'Zapfino';
+			src: url('zapfino.woff2') format('woff2'),
+				 url('zapfino.woff') format('woff'),
+				 url('zapfino.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+		
+		body {
+			font-family: 'Zapfino', cursive;
+		}
+
+		/* Allgemeine Stile */
+		:root {
+			--primary-color: #CF8852; /* Persian Orange */
+			--secondary-color: #000000; /* Brauntöne (Erdfarben) */
+			--dark-color: #525333; /* Dark Moss */
+			--light-color: #000000; /* Beige (heller Hintergrund) */
+			--background-color: #E8E7E3; /* Platinum */
+			--h1-color: #3D3D26; /* Light Moss */
+			--text-color: #4B3621; /* Dunkles Braun für Text */
+		}
+
+		body {
+			font-family: 'Playfair Display', serif;
+			margin: 0;
+			padding: 0;
+			color: var(--text-color);
+			background-color: var(--background-color);
+			line-height: 1.6;
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		/* Header mit Hintergrundbild */
+		header {
+			position: relative;
+			height: 100vh;
+			background: url('bilder/header.jpg') center/cover no-repeat;
+			color: white;
+			text-align: right;  /* Text rechts ausrichten */
+			padding-top: 200px;
+			padding-right: 70px;  /* Abstand vom rechten Rand */
+		}
+
+		header h1 {
+    /* Grundlegende Positionierung */
+    color: white;
+    text-align: right;
+    margin-left: auto;
+    padding-right: 40px;
+    
+    /* Erhöhter Zeilenabstand */
+    line-height: 1.6;
+    padding-bottom: 10px;
+
+    /* 3D-Perspektive (X, Y und Z-Rotation) */
+    transform: 
+        perspective(800px) 
+        rotateX(5deg)    /* leichte Neigung nach hinten */
+        rotateY(-15deg)  /* leichte Drehung nach links */
+        rotateZ(0.5deg); /* minimale Kippung */
+    
+    /* Optimierung der 3D-Darstellung */
+    transform-origin: right center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    
+    /* Tiefenwirkung verstärken */
+    text-shadow: 
+        1px 1px 2px rgba(0,0,0,0.4),
+        3px 3px 5px rgba(0,0,0,0.2),
+        0 0 15px rgba(255,255,255,0.1);
+    
+    /* Textur für realistischere Wirkung */
+    background: linear-gradient(
+        105deg,
+        transparent,
+        rgba(255,255,255,0.05) 50%,
+        transparent
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+		
+		@keyframes perspectiveShift {
+			100% { transform: perspective(500px) rotateY(10deg); }
+		}
+
+		/* Navigation */
+		nav {
+			position: fixed;
+			top: 0;
+			width: 100%;
+			background: rgba(82, 83, 51, 0.9); /* Dunkles Braun mit Transparenz */
+			padding: 15px 0;
+			text-align: center;
+			z-index: 2;
+		}
+
+		nav a {
+			margin: 0 20px;
+			color: white;
+			text-decoration: none;
+			font-size: 1.6em;
+			transition: color 0.3s ease;
+		}
+
+		nav a:hover {
+			color: var(--primary-color);
+		}
+
+		/* Abschnitte */
+		section {
+			max-width: 1200px;
+			margin: auto;
+			padding: 80px 20px;
+			text-align: center;
+			position: relative;
+			z-index: 1;
+		}
+
+		h2 {
+			font-size: 3em;
+			color: var(--text-color);
+			margin-bottom: 40px;
+		}
+
+		/* Über uns Abschnitt */
+		.about-container {
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+			margin-top: 40px;
+		}
+
+		.about-person {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+			gap: 20px;
+			background-color: var(--background-color);
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.about-image img {
+			width: 200px;
+			height: 300px;
+			border-radius: 10px;
+			object-fit: cover;
+			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Sanfte Übergänge */
+		}
+
+		/* Hover-Effekt für die Portraits */
+		.about-image img:hover {
+			transform: scale(1.1); /* Bild leicht vergrößern */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten hinzufügen */
+		}
+
+		.about-text {
+			flex: 1;
+		}
+
+		.about-text h3 {
+			font-size: 1.8em;
+			margin-bottom: 10px;
+			color: var(--text-color);
+		}
+
+		.about-text .title {
+			font-size: 1.2em;
+			color: var(--primary-color);
+			margin-bottom: 10px;
+		}
+
+		.about-text p {
+			font-size: 1.1em;
+			color: var(--text-color);
+			line-height: 1.6;
+		}
+
+		/* Responsive Design */
+		@media (max-width: 768px) {
+			.about-person {
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+			}
+
+			.about-image img {
+				width: 120px;
+				height: 120px;
+			}
+
+			.about-text h3 {
+				font-size: 1.5em;
+			}
+
+			.about-text .title {
+				font-size: 1em;
+			}
+
+			.about-text p {
+				font-size: 1em;
+			}
+		}
+
+		/* Portfolio */
+		.portfolio-section {
+			background-color: var(--background-color);
+			padding: 40px;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.gallery {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 10px; /* Abstand zwischen den Bildern */
+		}
+
+		.gallery img {
+			width: 100%;
+			height: 200px; /* Feste Höhe für alle Bilder */
+			object-fit: cover; /* Bilder werden zugeschnitten, um das Seitenverhältnis zu erhalten */
+			border-radius: 10px;
+			cursor: pointer;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.gallery img:hover {
+			transform: scale(1.05);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		/* Stile für den "Weitere" Button */
+		.load-more-btn {
+			display: block;
+			margin: 20px auto;
+			padding: 10px 20px;
+			font-size: 1.2em;
+			color: white;
+			background-color: var(--primary-color);
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.load-more-btn:hover {
+			background-color: var(--secondary-color);
+		}
+
+		/* Verstecke alle Bilder nach dem 12. Bild */
+		.gallery img:nth-child(n+13) {
+			display: none;
+		}
+
+		/* Kundenfeedback */
+		.testimonials {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 20px;
+			padding: 40px;
+			background-color: var(--background-color);
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.gallery {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 20px; /* Gleichmäßiger Abstand zwischen den Bildern */
+		}
+
+		.gallery img {
+			width: 100%;
+			height: 300px; /* Feste Höhe für alle Bilder */
+			object-fit: cover; /* Bilder werden zugeschnitten, um das Seitenverhältnis zu erhalten */
+			border-radius: 10px;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			cursor: pointer;
+		}
+
+		.gallery img:hover {
+			transform: scale(1.1);
+		}
+
+		/* Modal für vergrößerte Bilder */
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.9);
+			justify-content: center;
+			align-items: center;
+			z-index: 1000;
+			overflow-y: auto; /* Modal scrollbar machen */
+		}
+
+		.modal-content {
+			max-width: 90%;
+			max-height: 90%;
+			border-radius: 10px;
+			object-fit: contain;
+		}
+
+		.close, .prev, .next {
+			color: white;
+			font-size: 5em;
+			cursor: pointer;
+			position: absolute;
+		}
+
+		.close {
+			top: 20px;
+			right: 30px;
+		}
+
+		.prev {
+			left: 30px;
+		}
+
+		.next {
+			right: 30px;
+		}
+
+		/* Kundenfeedback */
+		.testimonials {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			gap: 20px;
+			padding: 40px;
+			background-color: var(--background-color);
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		.testimonial {
+			text-align: left;
+			padding: 20px;
+			border-left: 4px solid var(--primary-color);
+			background-color: var(--background-color);
+		}
+
+		.testimonial p {
+			font-size: 1.2em;
+			color: var(--text-color);
+		}
+
+		.testimonial cite {
+			display: block;
+			margin-top: 10px;
+			font-size: 1em;
+			color: #777;
+		}
+
+		/* Kontakt */
+		#contact {
+			background-color: var(--dark-color);
+			color: white;
+			padding: 60px 20px;
+			border-radius: 10px;
+			margin-top: 80px;
+		}
+
+		#contact h2 {
+			color: white;
+		}
+
+		#contact p {
+			font-size: 1.6em;
+			margin: 10px 0;
+		}
+
+		.contact-link {
+			color: var(--primary-color);
+			text-decoration: none;
+			font-weight: bold;
+			cursor: pointer;
+			transition: color 0.3s ease;
+		}
+
+		.contact-link:hover {
+			color: var(--secondary-color);
+		}
+
+		/* Footer */
+		footer {
+			background: var(--dark-color);
+			color: white;
+			text-align: center;
+			padding: 30px;
+			margin-top: 80px;
+			font-size: 1.2em;
+		}
+
+		footer a {
+			color: var(--primary-color);
+			text-decoration: none;
+			transition: color 0.3s ease;
+		}
+
+		footer a:hover {
+			color: var(--secondary-color);
+		}
+
+		/* Responsive Design */
+		@media (max-width: 768px) {
+			header h1 { font-size: 1.5em; }
+			nav a { font-size: 1.2em; margin: 0 10px; }
+			.about-container { flex-direction: column; text-align: center; }
+			.about-image img { width: 100%; max-width: 300px; }
+			.portfolio-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+			h2 { font-size: 2em; }
+		}
+    </style>
+</head>
+<body>
+    <!-- Modal für vergrößerte Bilder -->
+    <div id="myModal" class="modal" onclick="closeModalOnClick(event)">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <a class="prev" onclick="changeImage(-1)">&#10094;</a>
+        <a class="next" onclick="changeImage(1)">&#10095;</a>
+    </div>
+    <!-- Hauptnavigation -->
+    <nav aria-label="Hauptnavigation">
+        <a href="#portfolio">Portfolio</a>
+		<a href="#about">Über uns</a>
+        <a href="#services">Leistungen</a>
+        <a href="#testimonials">Referenzen</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
+    <!-- Header mit Titel -->
+    <header>
+        <h1>Hotel,<br>Tourismus<br>und Kulinarik</h1>
+    </header>
+    <!-- Portfolio Abschnitt -->
+	<section id="portfolio">
+		<h2>Portfolio</h2>
+		<div class="portfolio-section">
+			<div class="portfolio-gallery">
+				<div class="gallery" id="gallery"></div> <!-- Hier werden die Bilder dynamisch eingefügt -->
+				<button id="loadMore" class="load-more-btn">Weitere Bilder anzeigen</button>
+			</div>
+		</div>
+	</section>
+<!-- Über uns Abschnitt -->
+<section id="about">
+    <h2>Über uns</h2>
+    <p>Wir sind ein Team professioneller Fotografen, spezialisiert auf Hotelfotografie, Tourismus und Kulinarik. Unsere Leidenschaft ist es, die Atmosphäre und den Charme Ihrer Räumlichkeiten einzufangen – ob Hotel, Restaurant oder Veranstaltungsort. Wir arbeiten diskret und professionell, sodass wir Aufnahmen auch während des Betriebs machen können. So zeigen wir Ihr Unternehmen in seiner besten und authentischsten Form.</p>
+    
+    <div class="about-container">
+        <!-- Klaus Mitterhauser -->
+        <div class="about-person">
+            <div class="about-image">
+                <img src="bilder/portrait1.jpg" alt="Klaus Mitterhauser" loading="lazy">
+            </div>
+            <div class="about-text">
+                <h3>Klaus Mitterhauser</h3>
+                <p class="title">Meisterfotograf</p>
+                <p>Mein Betrieb besteht bereits seit 2001. Als ehemaliger Absolvent einer Höheren Tourismusschule bringe ich viel Verständnis für die Gastronomie bei unseren Shootings mit. Unkomplizierte Abläufe, maximale Ergebnisse ohne den laufenden Betrieb aufzuhalten sowie Liebe zum Detail zeichnen unsere Arbeiten aus. Gerne beraten wir Sie auch bei der Planung Ihres individuellen Fotoshootings!</p>
+            </div>
+        </div>
+
+        <!-- Sebastian Pillinger -->
+        <div class="about-person">
+            <div class="about-image">
+                <img src="bilder/portrait2.jpg" alt="Sebastian Pillinger" loading="lazy">
+            </div>
+            <div class="about-text">
+                <h3>Sebastian Pillinger</h3>
+                <p class="title">MSc.</p>
+                <p>Bereits vor meinem Masterstudium an der FH JOHANNEUM in Graz beschäftigte ich mich mit digitaler Bildbearbeitung, Mediendesign und Videoschnitt. Künstliche Intelligenz hat lange in der Fotografie Einzug gehalten und ich setze diese digitalen Instrumente als neue Hilfsmittel vorsichtig bei der Datenaufbereitung ein! Als Eventfotograf bei Kultur- und Sportveranstaltungen bin ich in ganz Österreich im Einsatz!</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Leistungen Abschnitt -->
+    <section id="services">
+        <h2>Leistungen</h2>
+        <ul style="list-style-type: none; font-size: 1.6em;">
+            <li>- Hotelfotografie</li>
+            <li>- Flugaufnahmen</li>
+            <li>- Food-Fotografie</li>
+            <li>- Video für Social Media</li>
+        </ul>
+    </section>
+    <!-- Referenzen Abschnitt -->
+    <section id="testimonials">
+        <h2>Referenzen</h2>
+        <div class="testimonials">
+            <div class="testimonial">
+                <p>"Die Zusammenarbeit mit [Dein Name] war ein voller Erfolg. Er hat es geschafft, die Eleganz und den Charme unseres LuxResort & Spa perfekt einzufangen. Seine Fotos vermitteln nicht nur die luxuriöse Atmosphäre unseres Hotels, sondern auch das besondere Wohlfühlambiente, das unsere Gäste schätzen. Besonders beeindruckt hat uns seine Liebe zum Detail und sein Blick für einzigartige Perspektiven. Dank seiner Bilder konnten wir unsere Buchungen über unsere Website und Social Media deutlich steigern. Wir freuen uns auf zukünftige Projekte"</p>
+                <cite>– LuxResort & Spa</cite>
+            </div>
+            <div class="testimonial">
+                <p>"Für unser Boutique-Hotel in den Alpen war es wichtig, authentische und einladende Bilder zu haben, die unsere Gäste emotional ansprechen. [Dein Name] hat genau das geliefert! Seine Bilder transportieren die Gemütlichkeit unserer Zimmer, die atemberaubende Bergkulisse und die Herzlichkeit unseres Services perfekt. Seine professionelle Arbeitsweise und sein kreativer Ansatz haben uns begeistert. Unsere Gäste buchen nun gezielter aufgrund der emotionalen Wirkung seiner Bilder – eine echte Bereicherung für unser Marketing!"</p>
+                <cite>– Alpenblick Mountain Lodge</cite>
+            </div>
+        </div>
+    </section>
+    <!-- Kontakt Abschnitt -->
+    <section id="contact">
+        <h2>Kontakt</h2>
+        <p>Für Professionelle Aufnahmen Ihres Hotels während dem Normalbetrieb:</p>
+        <p>Email: <span class="contact-link" onclick="copyToClipboard('foto@klaus-mitterhauser.at')">foto@klaus-mitterhauser.at</span></p>
+        <p>Telefon: <span class="contact-link" onclick="copyToClipboard('+43 664 5145364')">+43 664 5145364</span></p>
+        <p>
+            <p>Besuchen Sie die <a href="https://www.klaus-mitterhauser.at/" target="_blank" class="contact-link">Homepage von Klaus Mitterhauser</a> für weitere Informationen.</p>
+            <a href="https://www.instagram.com/Klaus_Mitterhauser/" target="_blank" class="contact-link">Instagram</a> | 
+            <a href="https://facebook.com/Klaus_Mitterhauser" target="_blank" class="contact-link">Facebook</a> | 
+            <a href="https://twitter.com/Klaus_Mitterhauser" target="_blank" class="contact-link">Twitter</a>
+        </p>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Klaus Mitterhauser – Alle Rechte vorbehalten</p>
+        <p><a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+    </footer>
+    <!-- Externe JavaScript-Datei -->
+	
+	<script>
+	
+		// Dynamisches Einfügen der Bilder in die Galerie
+		const totalImages = 54;
+		const gallery = document.getElementById('gallery');
+		const loadMoreButton = document.getElementById('loadMore');
+
+		for (let i = 1; i <= totalImages; i++) {
+			const img = document.createElement('img');
+			img.src = `bilder/gastro_${i.toString().padStart(2, '0')}.jpg`; // Dateinamen mit führender Null
+			img.alt = `Bild ${i}`;
+			img.loading = 'lazy';
+			img.onclick = () => openModal(i - 1); // Index für das Modal
+			gallery.appendChild(img);
+		}
+
+		// "Weitere" Button Logik
+		loadMoreButton.addEventListener('click', () => {
+			// Zeige alle versteckten Bilder an
+			const hiddenImages = document.querySelectorAll('.gallery img:nth-child(n+13)');
+			hiddenImages.forEach(img => {
+				img.style.display = 'block';
+			});
+
+			// Verstecke den Button, nachdem alle Bilder angezeigt wurden
+			loadMoreButton.style.display = 'none';
+		});
+
+		// Modal-Funktionen
+		let currentIndex = 0;
+		const modal = document.getElementById('myModal');
+		const modalImg = document.getElementById('modalImg');
+		const images = document.querySelectorAll('.gallery img');
+
+		function openModal(index) {
+			currentIndex = index;
+			modalImg.src = images[currentIndex].src;
+			modal.style.display = 'flex';
+		}
+
+		function closeModal() {
+			modal.style.display = 'none';
+		}
+
+		function closeModalOnClick(event) {
+			if (event.target === modal) {
+				closeModal();
+			}
+		}
+
+		function changeImage(n) {
+			currentIndex += n;
+			if (currentIndex >= images.length) currentIndex = 0;
+			if (currentIndex < 0) currentIndex = images.length - 1;
+			modalImg.src = images[currentIndex].src;
+		}
+
+		// Tastatursteuerung
+		document.addEventListener('keydown', (event) => {
+			if (modal.style.display === 'flex') {
+				if (event.key === 'ArrowRight') changeImage(1);
+				if (event.key === 'ArrowLeft') changeImage(-1);
+				if (event.key === 'Escape') closeModal();
+			}
+		});
+
+		// Kopieren in die Zwischenablage
+		function copyToClipboard(text) {
+			navigator.clipboard.writeText(text).then(() => {
+				alert('Kopiert: ' + text);
+			}).catch(() => {
+				alert('Kopieren fehlgeschlagen. Bitte manuell kopieren: ' + text);
+			});
+		}
+
+		// Smooth Scroll für interne Links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e) {
+				e.preventDefault();
+				const targetId = this.getAttribute('href').substring(1);
+				const targetElement = document.getElementById(targetId);
+
+				if (targetElement) {
+					targetElement.scrollIntoView({
+						behavior: 'smooth',
+						block: 'start'
+					});
+				}
+			});
+		});
+    </script>
+</body>
+</html>

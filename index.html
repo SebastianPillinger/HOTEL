@@ -425,19 +425,32 @@
 		}
 		
 		.prev, .next {
-			/* ... bestehende Styles ... */
-			user-select: none;
-			-webkit-user-select: none;
-			cursor: pointer;
-			touch-action: manipulation; /* Verhindert unerwünschtes Scrollen auf Mobile */
+		  color: white;
+		  font-size: 3em;
+		  cursor: pointer;
+		  position: fixed;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  padding: 20px;
+		  background: rgba(0,0,0,0.3);
+		  border-radius: 50%;
+		  transition: all 0.3s ease;
+		  z-index: 1001;
+		  user-select: none;
+		}
+		
+		.prev:hover, .next:hover {
+		  background: rgba(0,0,0,0.7);
 		}
 		
 		@media (max-width: 768px) {
-			.prev, .next {
-				font-size: 1.8em;
-				padding: 12px;
-				background: rgba(0,0,0,0.4);
-			}
+		  .prev, .next {
+			font-size: 1.8em;
+			padding: 12px;
+			background: rgba(0,0,0,0.4);
+		  }
+		  .prev { left: 10px; }
+		  .next { right: 10px; }
 		}
 
 		/* Kundenfeedback */
@@ -535,8 +548,8 @@
     <!-- Modal für vergrößerte Bilder -->
     <div class="lightbox" id="lightbox">
 		<div class="slider-container" id="slider-container"></div>
-		<button class="prev" onclick="event.stopPropagation(); changeImage(-1)">&#10094;</button>
-		<button class="next" onclick="event.stopPropagation(); changeImage(1)">&#10095;</button>
+		<button class="prev" onclick="event.stopPropagation(); changeImage(-1)">❮</button>
+		<button class="next" onclick="event.stopPropagation(); changeImage(1)">❯</button>
 	</div>
     <!-- Hauptnavigation -->
     <nav aria-label="Hauptnavigation">
@@ -737,19 +750,33 @@
 			const deltaX = endX - touchStartX;
 			const deltaY = endY - touchStartY;
 
-			// Vertikales Wischen (Schließen)
-			if(Math.abs(deltaY) > 100) {
+			// Vertikales Wischen (Schließen bei >50px Bewegung)
+			if(Math.abs(deltaY) > 50) {
+				// Berechne Wischgeschwindigkeit für Animation
+				const velocity = Math.abs(deltaY) / (Date.now() - touchStartTime);
+				
+				// Füge CSS-Transition mit Geschwindigkeit hinzu
+				lightbox.style.transition = `opacity ${Math.min(0.3, 100/velocity)}s ease`;
 				closeLightbox();
 				return;
 			}
 
 			// Horizontales Wischen
-			if(Math.abs(deltaX) > window.innerWidth * 0.15) {
+			if(Math.abs(deltaX) > window.innerWidth * 0.1) { // 10% der Bildschirmbreite
 				const direction = deltaX > 0 ? -1 : 1;
 				changeImage(direction, true);
 			} else {
 				sliderContainer.style.transform = `translateX(${currentPosition}%)`;
 			}
+		}
+		
+		// Touch-Start mit Zeitstempel
+		let touchStartTime;
+		function handleTouchStart(e) {
+			touchStartX = e.touches[0].clientX;
+			touchStartY = e.touches[0].clientY;
+			touchStartTime = Date.now();
+			sliderContainer.style.transition = 'none';
 		}
 
 		// Event Listener
@@ -757,10 +784,14 @@
 		lightbox.addEventListener('touchmove', handleTouchMove);
 		lightbox.addEventListener('touchend', handleTouchEnd);
 
-// Klick schließt Lightbox
-        lightbox.addEventListener('click', (e) => {
-        closeLightbox();
+		// Klick schließt Lightbox
+				// Lightbox-Klick schließt nur bei Klick auf den Hintergrund
+		lightbox.addEventListener('click', (e) => {
+			if(e.target === lightbox || e.target.classList.contains('slider-container')) {
+				closeLightbox();
+			}
 		});
+
 
 		// Tastatursteuerung
 		document.addEventListener('keydown', (e) => {
@@ -779,6 +810,7 @@ function closeLightbox() {
     lightbox.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
+
 
 		// Weitere Funktionen (Load More Button, Smooth Scroll, etc.)
 		loadMoreButton.addEventListener('click', () => {

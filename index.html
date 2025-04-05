@@ -14,29 +14,29 @@
     <!-- Google Fonts für das Design -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Externe CSS-Datei -->
-	<style>
+		<style>
+		/* ========== BASISSTILE ========== */
 		@font-face {
 			font-family: 'Zapfino';
 			src: url('fonts/zapfino.woff2') format('woff2'),
-				 url('fonts/zapfino.woff') format('woff'),
-				 url('fonts/zapfino.ttf') format('truetype');
+				url('fonts/zapfino.woff') format('woff'),
+				url('fonts/zapfino.ttf') format('truetype');
 			font-weight: normal;
 			font-style: normal;
 		}
-		
-		body {
-			font-family: 'Zapfino', cursive;
+
+		:root {
+			--primary-color: #CF8852;
+			--secondary-color: #000000;
+			--dark-color: #525333;
+			--background-color: #E8E7E3;
+			--text-color: #4B3621;
+			--header-height: 100vh;
+			--section-padding: 80px 20px;
 		}
 
-		/* Allgemeine Stile */
-		:root {
-			--primary-color: #CF8852; /* Persian Orange */
-			--secondary-color: #000000; /* Brauntöne (Erdfarben) */
-			--dark-color: #525333; /* Dark Moss */
-			--light-color: #000000; /* Beige (heller Hintergrund) */
-			--background-color: #E8E7E3; /* Platinum */
-			--h1-color: #3D3D26; /* Light Moss */
-			--text-color: #4B3621; /* Dunkles Braun für Text */
+		* {
+			box-sizing: border-box;
 		}
 
 		body {
@@ -49,77 +49,40 @@
 			transition: background-color 0.3s ease, color 0.3s ease;
 		}
 
-		/* Header mit Hintergrundbild */
+		/* ========== HEADER & NAVIGATION ========== */
 		header {
 			position: relative;
-			height: 100vh;
+			height: var(--header-height);
 			background: url('bilder/header.jpg') center/cover no-repeat;
 			color: white;
-			text-align: right;  /* Text rechts ausrichten */
-			padding-top: 200px;
-			padding-right: 70px;  /* Abstand vom rechten Rand */
+			text-align: right;
+			padding: 200px 70px 0 0;
 		}
 
 		header h1 {
-		font-family: 'Zapfino', cursive;
-		font-size: clamp(2rem, 10vw, 4rem); /* Responsive Schriftgröße */
-    /* Grundlegende Positionierung */
-    color: white;
-    text-align: right;
-    margin-left: auto;
-    padding-right: 40px;
-    
-    /* Erhöhter Zeilenabstand */
-    line-height: 2;
-    padding-bottom: 10px;
-
-    /* 3D-Perspektive (X, Y und Z-Rotation) */
-    transform: 
-        perspective(400px) 
-        rotateX(5deg)    /* leichte Neigung nach hinten */
-        rotateY(-15deg)  /* leichte Drehung nach links */
-        rotateZ(0.5deg); /* minimale Kippung */
-    
-    /* Optimierung der 3D-Darstellung */
-    transform-origin: right center;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    
-    /* Tiefenwirkung verstärken */
-    text-shadow: 
-        1px 1px 2px rgba(0,0,0,0.4),
-        3px 3px 5px rgba(0,0,0,0.2),
-        0 0 15px rgba(255,255,255,0.1);
-    
-    /* Textur für realistischere Wirkung */
-    background: linear-gradient(
-        105deg,
-        transparent,
-        rgba(255,255,255,0.05) 50%,
-        transparent
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-}
-
-@media (max-width: 768px) {
-    header h1 {
-        font-family: 'Zapfino', cursive; /* Sicherstellen dass Zapfio auf Mobile verwendet wird */
-        padding-right: 20px;
-        transform: none; /* 3D-Effekt auf Mobile entfernen */
-    }
-}
-		
-		@keyframes perspectiveShift {
-			100% { transform: perspective(500px) rotateY(10deg); }
+			font-family: 'Zapfino', cursive;
+			font-size: 2.5em;
+			color: white;
+			margin-top: -50px;
+			margin-left: auto;
+			padding-right: 40px;
+			line-height: 2;
+			transform: perspective(400px) rotateX(5deg) rotateY(-15deg) rotateZ(0.5deg);
+			transform-origin: right center;
+			text-shadow: 
+				1px 1px 2px rgba(0,0,0,0.4),
+				3px 3px 5px rgba(0,0,0,0.2),
+				0 0 15px rgba(255,255,255,0.1);
+			background: linear-gradient(105deg, transparent, rgba(255,255,255,0.05) 50%, transparent);
+			background-clip: text;
+			-webkit-background-clip: text;
 		}
 
-		/* Navigation */
 		nav {
 			position: fixed;
 			top: 0;
 			width: 100%;
-			background: rgba(82, 83, 51, 0.9); /* Dunkles Braun mit Transparenz */
+			background: rgba(82, 83, 51, 0.9);
 			padding: 15px 0;
 			text-align: center;
 			z-index: 2;
@@ -137,11 +100,11 @@
 			color: var(--primary-color);
 		}
 
-		/* Abschnitte */
+		/* ========== SEKTIONSSTILE ========== */
 		section {
 			max-width: 1200px;
 			margin: auto;
-			padding: 80px 20px;
+			padding: var(--section-padding);
 			text-align: center;
 			position: relative;
 			z-index: 1;
@@ -153,7 +116,7 @@
 			margin-bottom: 40px;
 		}
 
-		/* Über uns Abschnitt */
+		/* ========== ÜBER UNS ========== */
 		.about-container {
 			display: flex;
 			flex-direction: column;
@@ -163,8 +126,6 @@
 
 		.about-person {
 			display: flex;
-			flex-direction: row;
-			align-items: flex-start;
 			gap: 20px;
 			background-color: var(--background-color);
 			padding: 20px;
@@ -173,68 +134,36 @@
 		}
 
 		.about-image img {
-			width: 200px;
-			height: 300px;
+			width: 220px;
+			height: 220px;
 			border-radius: 10px;
 			object-fit: cover;
-			transition: transform 0.3s ease, box-shadow 0.3s ease; /* Sanfte Übergänge */
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
 		}
 
-		/* Hover-Effekt für die Portraits */
 		.about-image img:hover {
-			transform: scale(1.1); /* Bild leicht vergrößern */
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten hinzufügen */
+			transform: scale(1.1);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		}
 
 		.about-text {
 			flex: 1;
+			text-align: left;
 		}
 
 		.about-text h3 {
 			font-size: 1.8em;
-			margin-bottom: 10px;
-			color: var(--text-color);
+			margin: 0 0 10px;
 		}
 
 		.about-text .title {
 			font-size: 1.2em;
 			color: var(--primary-color);
-			margin-bottom: 10px;
+			margin-bottom: 15px;
+			display: block;
 		}
 
-		.about-text p {
-			font-size: 1.1em;
-			color: var(--text-color);
-			line-height: 1.6;
-		}
-
-		/* Responsive Design */
-		@media (max-width: 768px) {
-			.about-person {
-				flex-direction: column;
-				align-items: center;
-				text-align: center;
-			}
-
-			.about-image img {
-				width: 120px;
-				height: 120px;
-			}
-
-			.about-text h3 {
-				font-size: 1.5em;
-			}
-
-			.about-text .title {
-				font-size: 1em;
-			}
-
-			.about-text p {
-				font-size: 1em;
-			}
-		}
-
-		/* Portfolio */
+		/* ========== PORTFOLIO & GALERIE ========== */
 		.portfolio-section {
 			background-color: var(--background-color);
 			padding: 40px;
@@ -242,21 +171,33 @@
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 		}
 
+		.gallery {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 25px; /* Fixer Abstand in alle Richtungen */
+			padding: 25px;
+		}
+
 		.gallery img {
-			width: 100%;
-			height: 200px; /* Feste Höhe für alle Bilder */
-			object-fit: cover; /* Bilder werden zugeschnitten, um das Seitenverhältnis zu erhalten */
-			border-radius: 10px;
-			cursor: pointer;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			width: 300px;
+			height: 200px;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 8px;
+			box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+			transition: transform 0.3s ease;
 		}
 
 		.gallery img:hover {
 			transform: scale(1.05);
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 5px 12px rgba(0,0,0,0.15);
 		}
 
-		/* Stile für den "Weitere" Button */
+		.gallery img:nth-child(n+13) {
+			display: none;
+		}
+
 		.load-more-btn {
 			display: block;
 			margin: 20px auto;
@@ -274,12 +215,7 @@
 			background-color: var(--secondary-color);
 		}
 
-		/* Verstecke alle Bilder nach dem 12. Bild */
-		.gallery img:nth-child(n+13) {
-			display: none;
-		}
-		
-		/* Lightbox Styles */
+		/* ========== LIGHTBOX ========== */
 		.lightbox {
 			display: none;
 			position: fixed;
@@ -291,7 +227,6 @@
 			justify-content: center;
 			align-items: center;
 			z-index: 1000;
-			touch-action: none;
 			opacity: 0;
 			transition: opacity 0.7s ease;
 		}
@@ -306,7 +241,6 @@
 			height: 100%;
 			width: 100%;
 			will-change: transform;
-			pointer-events: none;
 		}
 
 		.slider-item {
@@ -316,163 +250,38 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			pointer-events: auto;
 		}
 
 		.slider-item img {
 			max-width: 90%;
 			max-height: 90vh;
 			object-fit: contain;
-			transition: none !important;
-			cursor: default;
+			border-radius: 10px;
+			overflow: hidden;
 		}
+
 		.lightbox-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-    font-size: 10em;
-    cursor: pointer;
-    user-select: none;
-    padding: 10px 20px;
-    z-index: 1001;
-    transition: opacity 0.2s;
-    pointer-events: auto;
-    
-    /* Hintergrund komplett entfernen */
-    background: none !important;
-    
-    /* Fokus-Ringe entfernen */
-    outline: none !important;
-    box-shadow: none !important;
-    -webkit-tap-highlight-color: transparent !important;
-    border: none !important;
-}
-
-/* Hover-Effekt anpassen */
-.lightbox-arrow:hover {
-    opacity: 0.5;
-    background: none !important; /* Sicherstellen, dass kein Hintergrund erscheint */
-}
-
-		
-		/* Lightbox-Klick zum Schließen */
-		.lightbox {
-			cursor: pointer;
-		}
-		.slider-container {
-			cursor: auto;
-		}
-
-		@media (max-width: 768px) {
-			.lightbox-arrow {
-				font-size: 3em;    /* Kleinere Größe für Handys */
-				padding: 5px 10px; /* Kompakteres Padding */
-			}
-		}
-
-		/* Kundenfeedback */
-		.testimonials {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-			gap: 20px;
-			padding: 40px;
-			background-color: var(--background-color);
-			border-radius: 10px;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-		}
-
-		.gallery {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-			gap: 20px; /* Gleichmäßiger Abstand zwischen den Bildern */
-		}
-
-		.gallery img {
-			width: 100%;
-			height: 300px; /* Feste Höhe für alle Bilder */
-			object-fit: cover; /* Bilder werden zugeschnitten, um das Seitenverhältnis zu erhalten */
-			border-radius: 10px;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-			cursor: pointer;
-		}
-
-		.gallery img:hover {
-			transform: scale(1.1);
-		}
-
-		/* Modal für vergrößerte Bilder */
-		.modal {
-			display: none;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.9);
-			justify-content: center;
-			align-items: center;
-			z-index: 1000;
-			overflow-y: auto; /* Modal scrollbar machen */
-		}
-
-		.modal-content {
-			max-width: 90%;
-			max-height: 90%;
-			border-radius: 10px;
-			object-fit: contain;
-		}
-
-		.close, .prev, .next {
-			color: white;
-			font-size: 5em;
-			cursor: pointer;
 			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			color: white;
+			font-size: 3em;
+			cursor: pointer;
+			z-index: 1001;
+			background: none;
+			border: none;
+			padding: 20px;
+			transition: opacity 0.3s ease;
 		}
 
-		.close {
-			top: 20px;
-			right: 30px;
+		.lightbox-arrow:hover {
+			opacity: 0.7;
 		}
 
-		.prev {
-			left: 30px;
-		}
+		.lightbox-arrow.prev { left: 30px; }
+		.lightbox-arrow.next { right: 30px; }
 
-		.next {
-			right: 30px;
-		}
-		
-		.prev, .next {
-		  color: white;
-		  font-size: 3em;
-		  cursor: pointer;
-		  position: fixed;
-		  top: 50%;
-		  transform: translateY(-50%);
-		  padding: 20px;
-		  background: rgba(0,0,0,0.3);
-		  border-radius: 50%;
-		  transition: all 0.3s ease;
-		  z-index: 1001;
-		  user-select: none;
-		}
-		
-		.prev:hover, .next:hover {
-		  background: rgba(0,0,0,0.7);
-		}
-		
-		@media (max-width: 768px) {
-		  .prev, .next {
-			font-size: 1.8em;
-			padding: 12px;
-			background: rgba(0,0,0,0.4);
-		  }
-		  .prev { left: 10px; }
-		  .next { right: 10px; }
-		}
-
-		/* Kundenfeedback */
+		/* ========== REFERENZEN ========== */
 		.testimonials {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -492,17 +301,16 @@
 
 		.testimonial p {
 			font-size: 1.2em;
-			color: var(--text-color);
+			margin: 0 0 15px;
 		}
 
 		.testimonial cite {
 			display: block;
-			margin-top: 10px;
-			font-size: 1em;
-			color: #777;
+			font-style: normal;
+			color: rgba(0,0,0,0.7);
 		}
 
-		/* Kontakt */
+		/* ========== KONTAKT ========== */
 		#contact {
 			background-color: var(--dark-color);
 			color: white;
@@ -515,16 +323,10 @@
 			color: white;
 		}
 
-		#contact p {
-			font-size: 1.6em;
-			margin: 10px 0;
-		}
-
 		.contact-link {
 			color: var(--primary-color);
 			text-decoration: none;
 			font-weight: bold;
-			cursor: pointer;
 			transition: color 0.3s ease;
 		}
 
@@ -532,14 +334,13 @@
 			color: var(--secondary-color);
 		}
 
-		/* Footer */
+		/* ========== FOOTER ========== */
 		footer {
 			background: var(--dark-color);
 			color: white;
 			text-align: center;
 			padding: 30px;
 			margin-top: 80px;
-			font-size: 1.2em;
 		}
 
 		footer a {
@@ -548,20 +349,54 @@
 			transition: color 0.3s ease;
 		}
 
-		footer a:hover {
-			color: var(--secondary-color);
-		}
-
-		/* Responsive Design */
+		/* ========== RESPONSIVE DESIGN ========== */
 		@media (max-width: 768px) {
-			header h1 { font-size: 1.5em; }
-			nav a { font-size: 1.2em; margin: 0 10px; }
-			.about-container { flex-direction: column; text-align: center; }
-			.about-image img { width: 100%; max-width: 300px; }
-			.portfolio-gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-			h2 { font-size: 2em; }
+			header {
+				justify-content: center;
+				text-align: center;
+			}
+
+			header h1 {
+				font-family: 'Zapfino', cursive;
+				font-size: 2em;
+				color: white;
+				margin-top: -25px;
+				
+			}
+
+			nav a {
+				font-size: 1.2em;
+				margin: 0 10px;
+			}
+
+			.about-person {
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+			}
+
+			.about-image img {
+				width: 150px;
+				height: 150px;
+			}
+
+			.about-text {
+				text-align: center;
+			}
+
+			.gallery {
+				grid-template-columns: 1fr;
+			}
+
+			.lightbox-arrow {
+				font-size: 1.8em;
+				padding: 12px;
+			}
+
+			.lightbox-arrow.prev { left: 10px; }
+			.lightbox-arrow.next { right: 10px; }
 		}
-    </style>
+	</style>
 </head>
 <body>
     <!-- Modal für vergrößerte Bilder -->

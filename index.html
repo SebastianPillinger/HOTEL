@@ -166,7 +166,7 @@
 		/* ========== PORTFOLIO & GALERIE ========== */
 		.portfolio-section {
 			background-color: var(--background-color);
-			padding: 40px;
+			padding: 25px;
 			border-radius: 10px;
 			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 		}
@@ -185,11 +185,12 @@
 			object-fit: cover; /* Schneidet Bilder ggf. zu */
 			border-radius: 8px; /* Optional: Abgerundete Ecken */
 			flex-shrink: 0; /* Verhindert Schrumpfen */
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
 		}
 
 		.gallery img:hover {
 			transform: scale(1.05);
-			box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+			box-shadow: 0 5px 12px rgba(0,0,0,0.3);
 		}
 
 		.gallery img:nth-child(n+13) {
@@ -399,9 +400,14 @@
     <!-- Modal für vergrößerte Bilder -->
     <div class="lightbox" id="lightbox">
 		<div class="slider-container" id="slider-container"></div>
-		<span class="lightbox-arrow prev" onclick="event.stopPropagation(); changeImage(-1)">❮</span>
-		<span class="lightbox-arrow next" onclick="event.stopPropagation(); changeImage(1)">❯</span>
+		<span class="lightbox-arrow prev" unselectable="on" onclick="event.stopPropagation(); changeImage(-1)">❮</span>
+		<span class="lightbox-arrow next" unselectable="on" onclick="event.stopPropagation(); changeImage(1)">❯</span>
 	</div>
+	
+	<span class="lightbox-arrow prev" unselectable="on" onselectstart="return false;">❮</span>
+<span class="lightbox-arrow next" unselectable="on" onselectstart="return false;">❯</span>
+
+
     <!-- Hauptnavigation -->
     <nav aria-label="Hauptnavigation">
         <a href="#portfolio">Portfolio</a>

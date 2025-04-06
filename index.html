@@ -526,6 +526,13 @@
 			img.onclick = () => openLightbox(i - 1);
 			gallery.appendChild(img);
 		}
+		
+		function preloadNeighbors(index) {
+			const prevIndex = (index - 1 + images.length) % images.length;
+			const nextIndex = (index + 1) % images.length;
+			new Image().src = images[prevIndex]; // Browser cached diese automatisch
+			new Image().src = images[nextIndex];
+		}
 
 		// Lightbox Funktionen
 		let currentIndex = 0;
@@ -537,6 +544,7 @@
 
 		function openLightbox(index) {
 			currentIndex = index;
+			preloadNeighbors(currentIndex);
 			images = Array.from(document.querySelectorAll('.gallery img'));
 			lightbox.classList.add('active');
 			document.body.style.overflow = 'hidden';
@@ -572,7 +580,8 @@
 			currentIndex = newIndex;
 			currentPosition = -currentIndex * 100;
 			sliderContainer.style.transform = `translateX(${currentPosition}%)`;
-
+			preloadNeighbors(currentIndex);
+			
 			if(animate) {
 				sliderContainer.addEventListener('transitionend', () => {
 					isAnimating = false;

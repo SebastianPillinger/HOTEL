@@ -271,6 +271,11 @@
 			border: none;
 			padding: 20px;
 			transition: opacity 0.3s ease;
+			user-select: none;         /* Standard */
+			-webkit-user-select: none; /* Safari/Chrome */
+			-moz-user-select: none;    /* Firefox */
+			-ms-user-select: none;     /* IE10+ */
+			pointer-events: auto;      /* Interaktion trotzdem möglich */
 		}
 
 		.lightbox-arrow:hover {
@@ -403,9 +408,6 @@
 		<span class="lightbox-arrow prev" unselectable="on" onclick="event.stopPropagation(); changeImage(-1)">❮</span>
 		<span class="lightbox-arrow next" unselectable="on" onclick="event.stopPropagation(); changeImage(1)">❯</span>
 	</div>
-	
-	<span class="lightbox-arrow prev" unselectable="on" onselectstart="return false;">❮</span>
-<span class="lightbox-arrow next" unselectable="on" onselectstart="return false;">❯</span>
 
 
     <!-- Hauptnavigation -->
@@ -590,9 +592,17 @@
 			if (isAnimating) return;
 			
 			const touchX = e.touches[0].clientX;
+			const touchY = e.touches[0].clientY;
 			const deltaX = touchX - touchStartX;
+			const deltaY = touchY - touchStartY;
 			const movePercentage = (deltaX / window.innerWidth) * 100;
 			let newPosition = currentPosition + movePercentage;
+			
+			if (Math.abs(deltaY) > Math.abs(deltaX)) {
+				e.preventDefault();
+				sliderContainer.style.transform = `translateY(${deltaY}px)`; // Bild bewegt sich mit
+				return;
+			}
 			
 			// Endlos-Scroll Logik
 			if(currentIndex === 0 && newPosition > 0) newPosition = -images.length * 100 + movePercentage;

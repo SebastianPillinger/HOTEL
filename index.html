@@ -186,6 +186,7 @@
 			border-radius: 8px; /* Optional: Abgerundete Ecken */
 			flex-shrink: 0; /* Verhindert Schrumpfen */
 			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			cursor: pointer;
 		}
 
 		.gallery img:hover {
@@ -264,13 +265,14 @@
 			top: 50%;
 			transform: translateY(-50%);
 			color: white;
-			font-size: 3em;
+			opacity: 70%;
+			font-size: 5em;
 			cursor: pointer;
 			z-index: 1001;
 			background: none;
 			border: none;
 			padding: 20px;
-			transition: opacity 0.3s ease;
+			transition: transform 0.3s ease, opacity 0.3s ease;
 			user-select: none;         /* Standard */
 			-webkit-user-select: none; /* Safari/Chrome */
 			-moz-user-select: none;    /* Firefox */
@@ -279,11 +281,59 @@
 		}
 
 		.lightbox-arrow:hover {
-			opacity: 0.7;
+			opacity: 1;
+			transform: translateY(-50%) scale(1.1);
 		}
 
 		.lightbox-arrow.prev { left: 30px; }
 		.lightbox-arrow.next { right: 30px; }
+		
+		.lightbox-arrow::before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 200px;  /* Unsichtbarer Klickbereich */
+			height: 250px; /* Unsichtbarer Klickbereich */
+			transform: translate(-50%, -50%);
+			z-index: -1;
+		}
+		
+		.lightbox-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 3rem;
+			color: white;
+			background: transparent;
+			border: none;
+			cursor: pointer;
+			z-index: 1002; /* Über den Pfeilen */
+			opacity: 70%;
+			transition: opacity 0.3s ease;
+			width: 50px;
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: transform 0.3s ease, opacity 0.3s ease;
+		}
+
+		.lightbox-close:hover {
+			opacity: 1;
+			transform: scale(1.1);
+		}
+
+		/* Mobile Optimierung */
+		@media (max-width: 768px) {
+			.lightbox-close {
+				top: 10px;
+				right: 10px;
+				font-size: 2rem;
+				width: 40px;
+				height: 40px;
+			}
+		}
 
 		/* ========== REFERENZEN ========== */
 		.testimonials {
@@ -407,6 +457,7 @@
 		<div class="slider-container" id="slider-container"></div>
 		<span class="lightbox-arrow prev" unselectable="on" onclick="event.stopPropagation(); changeImage(-1)">❮</span>
 		<span class="lightbox-arrow next" unselectable="on" onclick="event.stopPropagation(); changeImage(1)">❯</span>
+		<button class="lightbox-close" aria-label="Lightbox schließen">✕</button>
 	</div>
 
 
@@ -511,6 +562,9 @@
 		// Initialisiere Lightbox-Elemente
 		const lightbox = document.getElementById('lightbox');
 		const sliderContainer = document.getElementById('slider-container');
+		
+		const IMAGES_PER_LOAD = 9;
+		let visibleImages = 12; // Anfangs sichtbare Bilder
 		
 		// Dynamisches Einfügen der Bilder
 		const totalImages = 54;
@@ -694,11 +748,28 @@
 
 		// Weitere Funktionen (Load More Button, Smooth Scroll, etc.)
 		loadMoreButton.addEventListener('click', () => {
-			document.querySelectorAll('.gallery img:nth-child(n+13)').forEach(img => {
-				img.style.display = 'block';
-			});
-			loadMoreButton.style.display = 'none';
-		});
+        const allImages = Array.from(document.querySelectorAll('.gallery img'));
+        
+        // Nächsten Block anzeigen
+        for (let i = visibleImages; i < visibleImages + IMAGES_PER_LOAD; i++) {
+            if (allImages[i]) {
+                allImages[i].style.display = 'block';
+            }
+        }
+
+        visibleImages += IMAGES_PER_LOAD;
+
+        // Button verstecken wenn alle Bilder sichtbar
+        if (visibleImages >= allImages.length) {
+            loadMoreButton.style.display = 'none';
+        }
+        
+        // Optional: Smooth Scroll zum neuen Block
+        allImages[visibleImages - 1]?.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+        });
+    });
 
 		function copyToClipboard(text) {
 			navigator.clipboard.writeText(text).then(() => {
